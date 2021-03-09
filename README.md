@@ -43,3 +43,7 @@ With a semi-decent processor and 1GB RAM, it takes about a minute for a size 200
 Heres my personal favorite area
 
 `genMandelbrot(21, 100, 1600, -0.640, -0.480)`
+
+Sunglasses
+
+`genMandelbrot(21, 50, 10, 1, 0, "0+1i")`
