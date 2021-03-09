@@ -16,10 +16,15 @@ how to use:
 `genMandelbrot(i, s, zo=0, px=0, pz=0, of="")`
 
 `i` - Iterations per block (21 is a good number if you're not editing anything)
+
 `s` - Size (centered on the world's origin)
+
 `zo` - Zoom
+
 `px` - Offset x (real numbers)
+
 `pz` - Offset z (complex numbers)
+
 `of` - Offset Z (starting value in the function, leave this alone if you want the mandelbrot set)
 
 If you leave the zoom blank, you will end up with a very small visualization (~4x4 blocks)
