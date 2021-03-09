@@ -12,6 +12,7 @@ also make sure that you have increased decimal precision to at least
 decreases as you increase the decimal places
 
 how to use:
+
 `genMandelbrot(i, s, zo=0, px=0, pz=0, of="")`
 
 `i` - Iterations per block (21 is a good number if you're not editing anything)
@@ -22,10 +23,13 @@ how to use:
 `of` - Offset Z (starting value in the function, leave this alone if you want the mandelbrot set)
 
 If you leave the zoom blank, you will end up with a very small visualization (~4x4 blocks)
+
 `genMandelbrot(21, 10)`
 
 With a semi-decent processor and 1GB RAM, it takes about a minute for a size 200, zoom 50 set to generate
+
 `genMandelbrot(21, 200, 50)`
 
 Heres my personal favorite area
+
 `genMandelbrot(21, 100, 1600, -0.640, -0.480)`
