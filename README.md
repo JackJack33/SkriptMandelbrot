@@ -4,6 +4,9 @@ minecraft mandelbrot script for Skript
 copy the text and put it in a .sk file under `plugins/skript/scripts`
 save & reload
 
+the set generates at y=3, so make sure to have an adequately sized clearing
+or just a flat world
+
 make sure you have effect commands enabled, else you will have
 to link the function to a command or event
 
