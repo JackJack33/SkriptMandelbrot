@@ -11,7 +11,7 @@ also make sure that you have increased decimal precision to at least
 4 places in the skript config.yml. you can go over 4 but performance
 decreases as you increase the decimal places
 
-how to use:
+# How to use:
 
 `genMandelbrot(i, s, zo=0, px=0, pz=0, of="")`
 
@@ -26,6 +26,8 @@ how to use:
 `pz` - Offset z (complex numbers)
 
 `of` - Offset Z (starting value in the function, leave this alone if you want the mandelbrot set)
+
+# Examples
 
 If you leave the zoom blank, you will end up with a very small visualization (~4x4 blocks)
 
