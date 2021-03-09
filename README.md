@@ -47,3 +47,7 @@ Heres my personal favorite area
 Sunglasses
 
 `genMandelbrot(21, 50, 10, 1, 0, "0+1i")`
+
+A hill or something
+
+`genMandelbrot(21, 50, 1800, 1.52, 1.25, "0+1.6i")`
