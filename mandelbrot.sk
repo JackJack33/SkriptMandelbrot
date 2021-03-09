@@ -1,0 +1,75 @@
+function genMandelbrot(i: integer, s: integer, zo: number = 0, px: number = 0, pz: number = 0, of: string = ""):
+	set {_s} to ({_s}/2)+0.5
+	set {_e} to {_s}*(-1)
+	set {_start} to location({_s}, 3.0, {_s}, world("flat"))
+	set {_end} to location({_e}, 3.0, {_e}, world("flat"))
+	loop all blocks within {_start} and {_end}:
+		set {_x} to x-coordinate of location of loop-block
+		set {_z} to z-coordinate of location of loop-block
+		if {_zo} != 0:
+			set {_x} to {_x}/{_zo}
+			set {_z} to {_z}/{_zo}
+		if {_px} != 0:
+			set {_x} to {_x}  + {_px}
+		if {_pz} != 0:
+			set {_z} to {_z} + {_pz}
+		set {_str} to "0+0i" if {_of} is "" else {_of}
+		iterate({_str}, "%{_x}%+%{_z}%i", {_i}, location of loop-block)
+
+
+function iterate(z: string, c: string, i: number, loc: location) :: string:
+	set {_it} to 0
+	loop {_i} times:
+		set {_it} to {_it}+1
+		set {_z} to addString(squareString({_z}), {_c})
+		set {_s::*} to {_z} split at "+"
+		set {_s2::*} to {_s::2} split at "i"
+		replace all "-" with "" in {_s2::1}
+		replace all "-" with "" in {_s::1}
+		set {_cx} to {_s::1} parsed as number
+		set {_cy} to {_s2::1} parsed as number
+		set {_d} to sqrt({_cx}^2 + {_cy}^2)
+		send action bar  "&az: %{_z}%&a, &cc: %{_c}%&c, &dd: %{_d}%&d, &eit: %{_it}%" to all players
+		if {_d} > 2:
+			set {_b} to getBlockColor("%{_it}%" parsed as integer)
+			set block at {_loc} to {_b}
+			set {_done} to true
+			stop loop
+	if !{_done}:
+		set block at {_loc} to black wool
+	return {_z}
+
+function getBlockColor(i: integer) :: material:
+	return blue wool if {_i} < 2
+	return cyan wool if {_i} < 4
+	return light blue wool if {_i} < 6
+	return green wool if {_i} < 8
+	return lime wool if {_i} < 10
+	return yellow wool if {_i} < 12
+	return orange wool if {_i} < 14
+	return red wool if {_i} < 16
+	return magenta wool if {_i} < 18
+	return purple wool if {_i} < 20
+	return white wool
+
+function addString(c1: string, c2: string) :: string:
+	set {_s1::*} to {_c1} split at "+"
+	set {_s2::*} to {_c2} split at "+"
+	set {_x} to {_s1::1} parsed as number
+	set {_z} to {_s2::1} parsed as number
+	set {_s1.2::*} to {_s1::2} split at "i"
+	set {_s2.2::*} to {_s2::2} split at "i"
+	set {_y} to {_s1.2::1} parsed as number
+	set {_w} to {_s2.2::1} parsed as number
+	set {_t1} to {_x}+{_z}
+	set {_t2} to {_y}+{_w}
+	return "%{_t1}%+%{_t2}%i"
+
+function squareString(z: string) :: string:
+	set {_s::*} to {_z} split at "+"
+	set {_x} to {_s::1} parsed as number
+	set {_s2::*} to {_s::2} split at "i"
+	set {_y} to {_s2::1} parsed as number
+	set {_t1} to ({_x}^2) - ({_y}^2)
+	set {_t2} to 2*{_x}*{_y}
+	return "%{_t1}%+%{_t2}%i"
