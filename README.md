@@ -24,9 +24,9 @@ decreases as you increase the decimal places
 
 `zo` - Zoom
 
-`px` - Offset x (real numbers)
+`px` - Offset x (real term)
 
-`pz` - Offset z (complex numbers)
+`pz` - Offset z (coefficient of imaginary term)
 
 `of` - Offset Z (starting value in the function, leave this alone if you want the mandelbrot set)
 
