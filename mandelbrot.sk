@@ -1,8 +1,12 @@
+on load:
+	set {blocks::*} to blue concrete, blue wool, blue concrete powder, cyan concrete, cyan wool, cyan concrete powder, light blue concrete, light blue wool, light blue concrete powder, green concrete, green wool, green concrete powder, lime concrete, lime wool, lime concrete powder, yellow concrete, yellow wool, yellow concrete powder, orange concrete, orange wool, orange concrete powder, red concrete, red wool, red concrete powder, magenta concrete, magenta wool, magenta concrete powder, purple concrete, purple wool,  and purple concrete powder
+
 function genMandelbrot(i: integer, s: integer, zo: number = 0, px: number = 0, pz: number = 0, of: string = ""):
 	set {_s} to ({_s}/2)+0.5
 	set {_e} to {_s}*(-1)
 	set {_start} to location({_s}, 3.0, {_s}, world("flat"))
 	set {_end} to location({_e}, 3.0, {_e}, world("flat"))
+	set {_b} to 0
 	loop all blocks within {_start} and {_end}:
 		set {_x} to x-coordinate of location of loop-block
 		set {_z} to z-coordinate of location of loop-block
@@ -15,6 +19,9 @@ function genMandelbrot(i: integer, s: integer, zo: number = 0, px: number = 0, p
 			set {_z} to {_z} + {_pz}
 		set {_str} to "0+0i" if {_of} is "" else {_of}
 		iterate({_str}, "%{_x}%+%{_z}%i", {_i}, location of loop-block)
+		set {_b} to {_b} + 1
+		mod({_b}, 100) = 0
+		wait 1 tick
 
 
 function iterate(z: string, c: string, i: number, loc: location) :: string:
@@ -40,17 +47,8 @@ function iterate(z: string, c: string, i: number, loc: location) :: string:
 	return {_z}
 
 function getBlockColor(i: integer) :: material:
-	return blue wool if {_i} < 2
-	return cyan wool if {_i} < 4
-	return light blue wool if {_i} < 6
-	return green wool if {_i} < 8
-	return lime wool if {_i} < 10
-	return yellow wool if {_i} < 12
-	return orange wool if {_i} < 14
-	return red wool if {_i} < 16
-	return magenta wool if {_i} < 18
-	return purple wool if {_i} < 20
-	return white wool
+	set {_c} to mod({_i}, size of {blocks::*}) + 1
+	return {blocks::%{_c}%}
 
 function addString(c1: string, c2: string) :: string:
 	set {_s1::*} to {_c1} split at "+"
