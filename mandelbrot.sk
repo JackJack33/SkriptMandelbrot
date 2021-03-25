@@ -1,7 +1,33 @@
 on load:
-	set {blocks::*} to blue concrete, blue wool, blue concrete powder, cyan concrete, cyan wool, cyan concrete powder, light blue concrete, light blue wool, light blue concrete powder, green concrete, green wool, green concrete powder, lime concrete, lime wool, lime concrete powder, yellow concrete, yellow wool, yellow concrete powder, orange concrete, orange wool, orange concrete powder, red concrete, red wool, red concrete powder, magenta concrete, magenta wool, magenta concrete powder, purple concrete, purple wool,  and purple concrete powder
+	set {blocks::default::*} to blue concrete, blue wool, blue concrete powder, cyan concrete, cyan wool, cyan concrete powder, light blue concrete, light blue wool, light blue concrete powder, green concrete, green wool, green concrete powder, lime concrete, lime wool, lime concrete powder, yellow concrete, yellow wool, yellow concrete powder, orange concrete, orange wool, orange concrete powder, red concrete, red wool, red concrete powder, magenta concrete, magenta wool, magenta concrete powder, purple concrete, purple wool,  and purple concrete powder
+	set {blocks::classic::*} to blue concrete, blue wool, blue concrete powder, cyan concrete, cyan wool, cyan concrete powder, light blue concrete, light blue wool, light blue concrete powder, white concrete, white wool, white concrete powder, yellow concrete, yellow wool, yellow concrete powder, yellow wool, yellow concrete, white concrete powder, white wool, white concrete, light blue concrete powder, light blue wool, light blue concrete, cyan concrete powder, cyan wool, cyan concrete, blue concrete powder, and blue wool
+	set {blocks::baw::*} to white concrete, white wool, and white concrete powder
+	set {blocks::planks::*} to dark oak planks, spruce planks, oak planks, birch planks, jungle planks, and acacia planks
+	set {blocks::planks2::*} to stripped crimson hyphae, crimson planks, stripped warped hyphae, and warped planks
+	set {blocks::prismarine::*} to dark prismarine, prismarine bricks,  and prismarine
+
+command /cancelgen:
+	permission: op
+	trigger:
+		set {stopGenMandelbrot} to true
+		broadcast "&cCanceling generation..."
+
+command /setcolors <text>:
+	usage: /setcolors <color setting>
+	permission: op
+	trigger:
+		set {_a::*} to indexes of {blocks::*}
+		if {_a::*} contains arg-1:
+			set {mandelbrotColors} to arg-1
+			send "&aSet color setting to &f%arg-1%"
+		else:
+			send "&cIncorrect color setting, available color settings are: &f%{_a::*}%"
 
 function genMandelbrot(i: integer, s: integer, zo: number = 0, px: number = 0, pz: number = 0, of: string = ""):
+	if {genMandelbrot} is set:
+		broadcast "&cGeneration in progress, please wait for it to finish or use /cancelgen"
+	{genMandelbrot} is not set
+	set {genMandelbrot} to true
 	set {_s} to ({_s}/2)+0.5
 	set {_e} to {_s}*(-1)
 	set {_start} to location({_s}, 3.0, {_s}, world("flat"))
@@ -22,6 +48,11 @@ function genMandelbrot(i: integer, s: integer, zo: number = 0, px: number = 0, p
 		set {_b} to {_b} + 1
 		mod({_b}, 100) = 0
 		wait 1 tick
+		if {stopGenMandelbrot} = true:
+			broadcast "&cGeneration canceled"
+			delete {stopGenMandelbrot}
+			stop loop
+	delete {genMandelbrot}
 
 
 function iterate(z: string, c: string, i: number, loc: location) :: string:
@@ -47,8 +78,9 @@ function iterate(z: string, c: string, i: number, loc: location) :: string:
 	return {_z}
 
 function getBlockColor(i: integer) :: material:
-	set {_c} to mod({_i}, size of {blocks::*}) + 1
-	return {blocks::%{_c}%}
+	set {_p} to {mandelbrotColors} ? "default"
+	set {_c} to mod({_i}, size of {blocks::%{_p}%::*}) + 1
+	return {blocks::%{_p}%::%{_c}%}
 
 function addString(c1: string, c2: string) :: string:
 	set {_s1::*} to {_c1} split at "+"
